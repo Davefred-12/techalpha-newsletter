@@ -1,0 +1,45 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .footer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .footer-content {
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .footer-content p {
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  .footer-content a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .footer-content a:hover {
+    text-decoration: underline;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  p {
+    color: #555;
+  }
+  

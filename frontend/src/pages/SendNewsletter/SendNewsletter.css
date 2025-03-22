@@ -1,0 +1,381 @@
+/* Newsletter Form Styles */
+.send-news {
+  max-width: 800px;
+  margin: 25px auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  animation: slideIn 0.5s ease-out;
+}
+
+.news-header {
+  color: #1a1a1a;
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.news-header:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #4f46e5;
+  border-radius: 2px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-control {
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f9fafb;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  background: white;
+}
+
+textarea.form-control {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  margin-left: 11em;
+  background: #4f46e5;
+  color: white;
+  width: 50%;
+  margin-bottom: 1rem;
+}
+
+.btn-primary:hover {
+  background: #4338ca;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:disabled {
+  background: #2f41e6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  width: 75%;
+  margin-left: 5em;
+  background: #e3f706;
+  color:black;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background: #737309;
+  color: white;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+}
+
+.special {
+  margin-top: 1rem;
+}
+
+/* Loading state */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  color: #4f46e5;
+}
+
+/* Error and Success messages */
+.error-message,
+.success-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.success-message {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Alert styles */
+.alert {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.alert-success {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+/* Search styles */
+.search-container {
+  margin-bottom: 1rem;
+}
+
+.search-container .form-control {
+  width: 100%;
+  padding-left: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.75rem center;
+  background-size: 1rem;
+}
+
+/* Subscriber selection */
+.subscriber-selection {
+  max-height: 300px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.selected-count {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.subscribers-list {
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+.subscriber-item {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.15s ease;
+}
+
+.subscriber-item:hover {
+  background-color: #f8f9fa;
+}
+
+.progress-container {
+  margin: 1.5rem 0;
+}
+
+.progress {
+  height: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: width 0.5s ease;
+  background-color: #4f46e5;
+}
+
+/* Batch info */
+.batch-info {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .send-news {
+    margin: 20px;
+    padding: 1.5rem;
+  }
+
+  .news-header {
+    font-size: 2rem;
+  }
+  
+  .btn-primary, .btn-secondary {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Form text helper */
+.form-text {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+/* Highlighted search results */
+.highlight {
+  background-color: rgba(79, 70, 229, 0.1);
+  font-weight: 500;
+}
+.batch-confirmation-modal {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.batch-confirmation-content {
+  text-align: center;
+}
+
+.batch-confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btnfirst{
+  background: #03a328;
+  color: white;
+  width: 30%;
+  margin-bottom: 1rem;
+  padding: .5rem;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.3s ease;
+}
+.btnfirst:hover{
+  transform: scale(1.05);
+}
+.btnsecond{
+  background: #b81d02;
+  color: white;
+  width: 30%;
+  margin-bottom: 1rem;
+  padding: .5rem;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.3s ease;
+}
+.btnsecond:hover{
+  transform: scale(1.05);
+}
+
+.batch-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.batch-pages {
+  display: flex;
+  align-items: center;
+}
+
+.batch-number {
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.subscribers-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.subscriber-item {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.subscriber-item:last-child {
+  border-bottom: none;
+}

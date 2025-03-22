@@ -1,0 +1,170 @@
+/* Login Popup Container */
+.login-popup {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 105%;
+    background-color: rgba(5, 0, 16, 0.6); /* Dark overlay */
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+  }
+  
+  /* Popup Box */
+  .login-popup-container {
+    width: max(23vw, 330px);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 25px 30px;
+    border-radius: 20px;
+    font-size: 14px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  
+  /* Title Section */
+  .login-popup-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color:#2c3e50;
+  }
+  
+
+  
+  .login-popup-title button {
+    background: none;
+    border: none;
+    color: #2c3e50;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Input Fields */
+  .login-popup-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .input-with-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 10px;
+    font-size: 1.5rem;
+    color: #2c3e50;
+  }
+  
+  .input-with-icon input {
+    width: 100%;
+    height: 40px;
+    padding-left: 35px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #c9c9c9;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .input-with-icon input:focus {
+    border-color: #2c3e50;
+  }
+  
+  /* Password Toggle */
+  .password-container {
+    position: relative;
+  }
+  
+  .password-container input {
+    width: 100%;
+    padding-right: 40px;
+  }
+  
+  .password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+  }
+  
+  .password-toggle-icon:hover {
+    color: #333;
+  }
+  
+  /* Buttons */
+  .login-popup-container button {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    background-color:#2c3e50;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .login-popup-container button:hover {
+    color: tomato;
+    background-color: rgb(19, 0, 58);
+  }
+  
+ /* Terms and Conditions */
+.login-popup-condition {
+    display: flex;
+    align-items: center;  
+    gap: 1px;
+    font-size: 14px; 
+  }
+  
+  .login-popup-condition input {
+    margin-top: -1; 
+  }
+  
+  .login-popup-condition a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 900;
+    cursor: pointer;  /* Ensures the link looks clickable */
+  }
+  
+  .login-popup-condition a:hover {
+    text-decoration: underline;
+  }
+  
+  .login-popup p span {
+    color: red;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .login-popup-condition p {
+    font-size: 12px;
+    margin: 0; /* Removes any unwanted spacing around the paragraph */
+    text-align: center;
+  }
+  
+  
+  /* Animation */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

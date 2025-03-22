@@ -1,0 +1,203 @@
+.thank-you-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .thank-you-page.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .thank-you-container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .check-mark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+    background: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s ease 0.5s both;
+  }
+  
+  .check-mark svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .check {
+    fill: none;
+    stroke: white;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: drawCheck 1s ease 1s forwards;
+  }
+  
+  .welcome-text {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease 0.7s forwards;
+  }
+  
+  .subscriber-name {
+    color: #4CAF50;
+    font-weight: bold;
+  }
+  
+  .message-container {
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease 0.9s forwards;
+  }
+  
+  .thank-you-message {
+    font-size: 1.25rem;
+    color: #34495e;
+    margin-bottom: 10px;
+  }
+  
+  .confirmation-message {
+    color: #7f8c8d;
+    line-height: 1.6;
+  }
+  
+  .next-steps {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease 1.1s forwards;
+  }
+  
+  .next-steps h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+  
+  .next-steps ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+  
+  .next-steps li {
+    color: #34495e;
+    margin-bottom: 10px;
+    padding-left: 25px;
+    position: relative;
+  }
+  
+  .next-steps li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #4CAF50;
+  }
+  
+  .social-share {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease 1.3s forwards;
+  }
+  
+  .social-share p {
+    color: #7f8c8d;
+    margin-bottom: 15px;
+  }
+  
+  .social-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .share-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .share-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .twitter {
+    background: #1DA1F2;
+    color: white;
+  }
+  
+  .linkedin {
+    background: #0077B5;
+    color: white;
+  }
+  
+  @keyframes scaleIn {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes drawCheck {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .thank-you-container {
+      padding: 30px 20px;
+    }
+  
+    .welcome-text {
+      font-size: 2rem;
+    }
+  
+    .social-buttons {
+      flex-direction: column;
+    }
+  
+    .share-button {
+      width: 100%;
+    }
+  }
