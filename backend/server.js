@@ -57,6 +57,9 @@ app.use("/api", adminRoutes);
 app.use("/api", newsletterRoutes);
 
 
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 // Handle React routing, return all requests to React app
 // app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
