@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalSubscribers, setTotalSubscribers] = useState(0);
 
-  const API_BASE_URL = "http://localhost:9000/api";
+  const API_BASE_URL = "https://techalpha-newsletter-backk.onrender.com/api";
 
   useEffect(() => {
     fetchSubscribers(1); // Start with page 1

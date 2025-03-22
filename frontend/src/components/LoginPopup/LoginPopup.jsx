@@ -35,7 +35,7 @@ const LoginPopup = ({ setShowLogin }) => {
   
     try {
       const response = await axios.post(
-        "http://localhost:9000/api/admin-login",
+        "https://techalpha-newsletter-backk.onrender.com/api/admin-login",
         {
           username: data.email,
           password: data.password,
@@ -64,7 +64,7 @@ const LoginPopup = ({ setShowLogin }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:9000/api/admin-signup",
+        "https://techalpha-newsletter-backk.onrender.com/api/admin-signup",
         {
           name: data.name,
           email: data.email,

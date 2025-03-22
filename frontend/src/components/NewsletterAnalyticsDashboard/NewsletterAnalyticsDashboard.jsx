@@ -42,7 +42,7 @@ const NewsletterAnalyticsDashboard = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [newsletterToDelete, setNewsletterToDelete] = useState(null);
 
-  const API_BASE_URL = "http://localhost:9000/api";
+  const API_BASE_URL = "https://techalpha-newsletter-backk.onrender.com/api";
 
   // Helper function to get auth token
   const getToken = () => {

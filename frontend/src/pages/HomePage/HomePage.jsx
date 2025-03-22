@@ -24,7 +24,7 @@ const HomePage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:9000/api/subscribe", {
+      const response = await fetch("https://techalpha-newsletter-backk.onrender.com/api/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

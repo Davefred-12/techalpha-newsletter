@@ -35,7 +35,7 @@ const SendNewsletter = () => {
   const [subscribersPerPage] = useState(1000); 
 
   
-  const API_BASE_URL = "http://localhost:9000/api";
+  const API_BASE_URL = "https://techalpha-newsletter-backk.onrender.com/api";
 
   const getToken = () => {
     const token = localStorage.getItem('adminToken');
