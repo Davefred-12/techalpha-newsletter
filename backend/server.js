@@ -11,7 +11,6 @@ import subscriberRoutes from "./routes/subscriberRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
 
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,13 +20,9 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 connectDB();
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-app.use(express.json());
+
+app.use(cors({ origin: "https://techalpha-newsletter-front.onrender.com" }));
+credentials: true, app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -55,7 +50,6 @@ try {
 app.use("/api", subscriberRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", newsletterRoutes);
-
 
 app.get("/", (req, res) => {
   res.send("API is running...");
