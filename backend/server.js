@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import dotenv from "dotenv";
+import { mkdirSync } from "fs";
 import connectDB from "./config/db.js";
 import cors from "cors";
 import subscriberRoutes from "./routes/subscriberRoutes.js";
@@ -21,9 +22,12 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 connectDB();
-app.use(cors({ 
-  origin: "https://techalpha-newsletter-front.onrender.com",
-  credentials: true 
+app.use(cors({
+  origin: [
+    "https://techalpha-newsletter-front.onrender.com",
+    "http://techalpha-newsletter-front.onrender.com"
+  ],
+  credentials: true
 }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));

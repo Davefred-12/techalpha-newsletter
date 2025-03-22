@@ -32,19 +32,25 @@ const LoginPopup = ({ setShowLogin }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post(
         "https://techalpha-newsletter-backk.onrender.com/api/admin-login",
         {
           username: data.email,
           password: data.password,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
-  
+
       if (response.data?.token) {
         login(response.data.token);
-        toast.success(`Welcome back, ${response.data.name}!`);  // Use the name from response
+        toast.success(`Welcome back, ${response.data.name}!`); // Use the name from response
         setShowLogin(false);
         navigate("/send-newsletter");
       } else {
@@ -69,6 +75,12 @@ const LoginPopup = ({ setShowLogin }) => {
           name: data.name,
           email: data.email,
           password: data.password,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
