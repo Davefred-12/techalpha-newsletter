@@ -23,9 +23,10 @@ const port = process.env.PORT || 9000;
 // Connect to database
 connectDB();
 
-// CORS configuration - more permissive for troubleshooting
+// In your server.js
 app.use(cors({
-  origin: '*',  // Allow all origins temporarily for debugging
+  origin: "https://techalpha-newsletter-front.onrender.com", // Specific origin instead of wildcard
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
