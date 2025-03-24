@@ -23,16 +23,22 @@ const port = process.env.PORT || 9000;
 // Connect to database
 connectDB();
 
-// In your server.js
-app.use(cors({
-  origin: "https://techalpha-newsletter-front.onrender.com", // Specific origin instead of wildcard
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+// First, handle OPTIONS requests explicitly
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'https://techalpha-newsletter-front.onrender.com');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.status(200).send();
+});
 
-// Enable pre-flight requests for all routes
-app.options('*', cors());
+// Then set up CORS for all other requests
+app.use(cors({
+  origin: 'https://techalpha-newsletter-front.onrender.com',
+  credentials: true,  // This is essential when using withCredentials on frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+}));
 
 // Other middleware
 app.use(express.json());

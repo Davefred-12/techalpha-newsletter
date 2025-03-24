@@ -95,10 +95,15 @@ const LoginPopup = ({ setShowLogin }) => {
         setCurrState("Login"); // Switch to login form after successful signup
       }
     } catch (error) {
-      console.error("Signup Error:", error.response?.data || error.message);
-      toast.error(
-        error.response?.data?.message || "Signup failed. Please try again."
-      );
+      if (error.message === "Network Error") {
+        toast.error("Connection failed. This may be a CORS issue.");
+        console.error("Possible CORS error:", error);
+      } else {
+        toast.error(
+          error.response?.data?.message || "Signup failed. Please try again."
+        );
+        console.error("Signup Error:", error.response?.data || error.message);
+      }
     }
   };
 

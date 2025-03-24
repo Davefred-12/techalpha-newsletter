@@ -2,6 +2,11 @@ import jwt from "jsonwebtoken";
 
 // Protect middleware for any authenticated user
 export const protect = async (req, res, next) => {
+  // Skip authentication for OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
+
   let token;
 
   if (
@@ -45,6 +50,11 @@ export const protect = async (req, res, next) => {
 
 // Admin-only middleware
 export const authenticateAdmin = async (req, res, next) => {
+  // Skip authentication for OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
+  
   let token;
 
   if (
