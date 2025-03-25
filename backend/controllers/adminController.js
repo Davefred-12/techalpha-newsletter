@@ -1,35 +1,18 @@
 import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import mongoose from 'mongoose';
 
+// Ensure both functions are correctly exported
 export const adminSignup = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // Validate input
+    // Validate inputs
     if (!name || !email || !password) {
       return res.status(400).json({ 
         message: "All fields are required." 
       });
     }
-
-    // Log connection state before operation
-    console.log('Mongoose Connection State:', {
-      readyState: mongoose.connection.readyState,
-      connectionString: mongoose.connection.client?.s?.url
-    });
-
-    // Check database connection
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(500).json({ 
-        message: "Database connection is not ready. Please try again later.",
-        connectionState: mongoose.connection.readyState
-      });
-    }
-
-    // More detailed logging
-    console.log('Attempting to find existing admin:', email);
 
     // Check if admin exists
     const existingAdmin = await Admin.findOne({ username: email });
@@ -49,11 +32,8 @@ export const adminSignup = async (req, res) => {
       password: hashedPassword
     });
 
-    // Save with extended timeout and logging
-    console.log('Saving new admin:', { name, email });
-    await newAdmin.save({ 
-      timeout: 20000 // 20 seconds timeout 
-    });
+    // Save admin
+    await newAdmin.save();
 
     res.status(201).json({ 
       message: "Admin created successfully.",
@@ -61,28 +41,52 @@ export const adminSignup = async (req, res) => {
     });
 
   } catch (error) {
-    // Comprehensive error logging
-    console.error("Signup Error Details:", {
-      message: error.message,
-      name: error.name,
-      code: error.code,
-      stack: error.stack,
-      mongooseError: error instanceof mongoose.Error,
-      connectionState: mongoose.connection.readyState
-    });
-
-    // Specific error handling
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({
-        message: "Validation Error",
-        details: Object.values(error.errors).map(err => err.message)
-      });
-    }
-
-    // Generic error response
+    console.error("Signup Error:", error);
     res.status(500).json({
       message: "Error signing up. Please try again.",
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal Server Error'
+      error: error.message
+    });
+  }
+};
+
+export const adminLogin = async (req, res) => {
+  const { username, password } = req.body;
+  
+  try {
+    // Find admin by username
+    const admin = await Admin.findOne({ username });
+    
+    // Check if admin exists
+    if (!admin) {
+      return res.status(401).json({ message: 'Invalid credentials.' });
+    }
+
+    // Check password
+    const isMatch = await bcrypt.compare(password, admin.password);
+    
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials.' });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { id: admin._id, role: 'admin' }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: '1h' }
+    );
+
+    // Send response
+    res.status(200).json({ 
+      message: 'Login successful!', 
+      token,
+      name: admin.name 
+    });
+
+  } catch (error) {
+    console.error("Login Error:", error);
+    res.status(500).json({ 
+      message: 'Login error',
+      error: error.message 
     });
   }
 };
