@@ -9,9 +9,13 @@ import fs from "fs";
 
 const router = express.Router();
 
-// Configure multer for file uploads
+// Multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    // Ensure uploads directory exists
+    if (!fs.existsSync('uploads/')) {
+      fs.mkdirSync('uploads/', { recursive: true });
+    }
     cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
@@ -19,6 +23,7 @@ const storage = multer.diskStorage({
   },
 });
 
+// Multer upload configuration
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
@@ -30,10 +35,12 @@ const upload = multer({
     ) {
       cb(null, true);
     } else {
-      cb(null, false);
-      return cb(new Error("Only Excel and CSV files are allowed!"));
+      cb(new Error("Only Excel and CSV files are allowed!"), false);
     }
   },
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5 MB file size limit
+  }
 });
 
 // Public subscription endpoint
@@ -179,7 +186,7 @@ router.delete("/subscribers/delete-multiple", async (req, res) => {
 
 // Import subscribers from Excel/CSV
 router.post("/subscribers/import", upload.single("file"), async (req, res) => {
-  console.log("Received Data:", req.body);
+  console.log("Received File:", req.file);
 
   try {
     if (!req.file) {
@@ -200,8 +207,12 @@ router.post("/subscribers/import", upload.single("file"), async (req, res) => {
     let skipped = 0;
 
     for (const row of data) {
-      // Check for capitalized field names
-      if (!row.Name || !row.Email || !row.Phone) {
+      // Validate required fields (case-insensitive)
+      const name = row.Name || row.name;
+      const email = row.Email || row.email;
+      const phone = row.Phone || row.phone;
+
+      if (!name || !email || !phone) {
         console.warn("Skipping invalid row:", row);
         skipped++;
         continue;
@@ -209,17 +220,18 @@ router.post("/subscribers/import", upload.single("file"), async (req, res) => {
 
       try {
         const existingSubscriber = await Subscriber.findOne({
-          email: row.Email.toLowerCase(),
+          email: email.toLowerCase(),
         });
+
         if (!existingSubscriber) {
           await Subscriber.create({
-            name: row.Name,
-            email: row.Email.toLowerCase(),
-            phone: row.Phone,
+            name: name,
+            email: email.toLowerCase(),
+            phone: phone,
           });
           imported++;
         } else {
-          console.log(`Subscriber already exists: ${row.Email}`);
+          console.log(`Subscriber already exists: ${email}`);
           skipped++;
         }
       } catch (err) {
@@ -242,13 +254,16 @@ router.post("/subscribers/import", upload.single("file"), async (req, res) => {
     });
   } catch (error) {
     console.error("Error importing subscribers:", error);
-    if (req.file) {
+    
+    // Attempt to remove file if it exists
+    if (req.file && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
     }
+
     res.status(500).json({
       success: false,
       error: "Error importing subscribers",
-      details: error.message,
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Internal Server Error',
     });
   }
 });
