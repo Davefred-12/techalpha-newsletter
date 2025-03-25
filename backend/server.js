@@ -4,9 +4,9 @@ import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import dotenv from "dotenv";
+import "dotenv/config.js";
 import { mkdirSync } from "fs";
-import connectDB from "./config/db.js";
+import { connectDB } from "./config/db.js";
 import cors from "cors";
 import subscriberRoutes from "./routes/subscriberRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
@@ -23,7 +23,6 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,12 +30,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 9000;
 
-// Comprehensive logging for environment variables
-console.log('Environment Variables:', {
-  PORT: process.env.PORT,
-  MONGODB_URI: process.env.MONGODB_URI ? '[REDACTED]' : 'NOT SET',
-  NODE_ENV: process.env.NODE_ENV
-});
+
 
 // Improved CORS Configuration
 const corsOptions = {
@@ -60,11 +54,7 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-// Connect to database with error handling
-const startServer = async () => {
-  try {
-    // Database connection
-    await connectDB();
+ connectDB();
 
     // Apply middleware
     app.use(cors(corsOptions));
@@ -117,17 +107,3 @@ const startServer = async () => {
       console.log(`Server is running on port ${port}`);
     });
 
-    // Handle server startup errors
-    server.on('error', (error) => {
-      console.error('Server Startup Error:', error);
-      process.exit(1);
-    });
-
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-};
-
-// Initiate server startup
-startServer();

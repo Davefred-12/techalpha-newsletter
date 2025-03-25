@@ -1,16 +1,10 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import mongoose from "mongoose";
 
-dotenv.config();
-
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('DB connected');
+    await mongoose.connect("mongodb+srv://adeleyepamilerin9:wmDWVg57w0lDZeI6@cluster0.bbg2mgg.mongodb.net/NwesletterApp");
+    console.log("DB connected");
   } catch (error) {
-    console.error('DB connection error:', error);
-    process.exit(1);
+    console.error("DB connection error:", error.message);
   }
 };
-
-export default connectDB;
