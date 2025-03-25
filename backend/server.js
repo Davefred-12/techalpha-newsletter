@@ -12,6 +12,17 @@ import subscriberRoutes from "./routes/subscriberRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
 
+// Enhanced error logging
+process.on('uncaughtException', (error) => {
+  console.error('UNCAUGHT EXCEPTION:', error);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('UNHANDLED REJECTION:', reason, 'at:', promise);
+  process.exit(1);
+});
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,13 +31,22 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 9000;
 
+// Comprehensive logging for environment variables
+console.log('Environment Variables:', {
+  PORT: process.env.PORT,
+  MONGODB_URI: process.env.MONGODB_URI ? '[REDACTED]' : 'NOT SET',
+  NODE_ENV: process.env.NODE_ENV
+});
+
 // Improved CORS Configuration
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       'https://techalpha-newsletter-front.onrender.com', 
-      'http://localhost:3000'  // Add local development origin if needed
+      'http://localhost:3000'
     ];
+    
+    console.log('Incoming Origin:', origin);
     
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
@@ -40,54 +60,74 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-// Connect to database
-connectDB();
+// Connect to database with error handling
+const startServer = async () => {
+  try {
+    // Database connection
+    await connectDB();
 
-// Apply CORS middleware
-app.use(cors(corsOptions));
+    // Apply middleware
+    app.use(cors(corsOptions));
+    app.options('*', cors(corsOptions));
 
-// Handle preflight requests explicitly
-app.options('*', cors(corsOptions));
+    app.use(express.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(cookieParser());
+    app.use(
+      session({
+        secret: process.env.SESSION_SECRET || "your-generated-secret",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false },
+      })
+    );
 
-// Other middleware
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your-generated-secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
+    // Create uploads directory
+    const uploadsDir = process.env.NODE_ENV === 'production' 
+      ? '/tmp/uploads'  
+      : './uploads';
 
-// Create uploads directory if it doesn't exist
-const uploadsDir = process.env.NODE_ENV === 'production' 
-  ? '/tmp/uploads'  // Use Render's temporary storage
-  : './uploads';
+    try {
+      mkdirSync(uploadsDir, { recursive: true });
+    } catch (err) {
+      console.error("Upload directory error:", err);
+    }
 
-try {
-  mkdirSync(uploadsDir, { recursive: true });
-} catch (err) {
-  if (err.code !== "EEXIST") console.error("Upload directory error:", err);
-}
+    // Routes
+    app.use("/api", subscriberRoutes);
+    app.use("/api", adminRoutes);
+    app.use("/api", newsletterRoutes);
 
-// Test endpoint for CORS
-app.get('/api/test-cors', (req, res) => {
-  res.json({ message: 'CORS is working!' });
-});
+    app.get("/", (req, res) => {
+      res.send("API is running...");
+    });
 
-// API routes
-app.use("/api", subscriberRoutes);
-app.use("/api", adminRoutes);
-app.use("/api", newsletterRoutes);
+    // Global error handler
+    app.use((err, req, res, next) => {
+      console.error('Unhandled Error:', err);
+      res.status(500).json({
+        message: 'An unexpected error occurred',
+        error: process.env.NODE_ENV === 'development' ? err.message : 'Internal Server Error'
+      });
+    });
 
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+    // Start server
+    const server = app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+    // Handle server startup errors
+    server.on('error', (error) => {
+      console.error('Server Startup Error:', error);
+      process.exit(1);
+    });
+
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+// Initiate server startup
+startServer();
