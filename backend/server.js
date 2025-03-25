@@ -20,25 +20,34 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 9000;
 
+// Improved CORS Configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://techalpha-newsletter-front.onrender.com', 
+      'http://localhost:3000'  // Add local development origin if needed
+    ];
+    
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
 // Connect to database
 connectDB();
 
-// First, handle OPTIONS requests explicitly
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://techalpha-newsletter-front.onrender.com');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.status(200).send();
-});
+// Apply CORS middleware
+app.use(cors(corsOptions));
 
-// Then set up CORS for all other requests
-app.use(cors({
-  origin: 'https://techalpha-newsletter-front.onrender.com',
-  credentials: true,  // This is essential when using withCredentials on frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
-}));
+// Handle preflight requests explicitly
+app.options('*', cors(corsOptions));
 
 // Other middleware
 app.use(express.json());
